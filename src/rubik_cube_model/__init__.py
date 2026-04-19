@@ -1,17 +1,21 @@
 from .model import (
-    Color,
-    CornerSticker,
-    Cube,
-    EdgeSticker,
-    Side,
-    Sticker,
+  Color,
+  Side,
+  Sticker,
+  CornerSticker,
+  EdgeSticker,
+  Cube,
+  validate_links,
+  solved,
 )
 
 __all__ = [
-    "Color",
-    "CornerSticker",
-    "Cube",
-    "EdgeSticker",
-    "Side",
-    "Sticker",
+  'Color',
+  'Side',
+  'Sticker',
+  'CornerSticker',
+  'EdgeSticker',
+  'Cube',
+  'validate_links',
+  'solved',
 ]
