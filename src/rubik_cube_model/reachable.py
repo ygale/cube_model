@@ -28,8 +28,6 @@ _PRIORITY: list[Color] = [
   Color.BLUE, Color.GREEN, Color.WHITE, Color.YELLOW,
 ]
 
-_WY: frozenset[Color] = frozenset({Color.WHITE, Color.YELLOW})
-
 type _Cubie3 = frozenset[Color]
 type _Cubie2 = frozenset[Color]
 
@@ -75,8 +73,13 @@ _SOLVED_EDGES: list[_Cubie2] = [
   _edge_cubie(es) for es in _all_edges(_ref)
 ]
 
+_GB: tuple[Color, Color] = (Color.GREEN,  Color.BLUE  )
+_OR: tuple[Color, Color] = (Color.ORANGE, Color.RED   )
+_WY: tuple[Color, Color] = (Color.WHITE,  Color.YELLOW)
+
 def locations_ok(cube: Cube) -> bool:
-  '''Return True if corner and edge permutations have the same parity.'''
+  '''Return True if out of corner, edge, and center permutations, an
+  even number have even parity.'''
   corner_even: bool = even_permutation(
     [_corner_cubie(cs) for cs in _all_corners(cube)],
     _SOLVED_CORNERS,
@@ -85,7 +88,14 @@ def locations_ok(cube: Cube) -> bool:
     [_edge_cubie(es) for es in _all_edges(cube)],
     _SOLVED_EDGES,
   )
-  return corner_even == edge_even
+  f: Color = cube.front_color
+  t: Color = cube.top_color
+  center_even: bool = (
+       f in _GB and t in _WY
+    or f in _WY and t in _OR
+    or f in _OR and t in _GB)
+  return sum(1 if e else 0 for e in (corner_even, edge_even, center_even)
+    ) % 2 == 0
 
 def _rep_sticker(es: EdgeSticker) -> EdgeSticker:
   '''Return the representative sticker of an edge cubie.

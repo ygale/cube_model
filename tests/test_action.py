@@ -277,9 +277,9 @@ class TestAct:
 
     def test_act_rotation_changes_orientation(self) -> None:
         '''act() with a Rotation (z-CW) keeps GREEN on FRONT, WHITE on RIGHT.'''
-        # check_cube_integrity omitted: reachable() depends on orientation (TODO)
         cube = solved()
         act(cube, Rotation(Move(Side.FRONT, Multiplicity.CW)))
+        check_cube_integrity(cube)
         colors: dict[Side, list[Color]] = all_colors(cube)
         assert all(c == Color.GREEN for c in colors[Side.FRONT])
         assert all(c == Color.WHITE for c in colors[Side.RIGHT])
@@ -302,9 +302,9 @@ class TestAct:
 
     def test_act_wide_changes_cube(self) -> None:
         '''act() with WideMove changes the cube state.'''
-        # check_cube_integrity omitted: reachable() depends on orientation (TODO)
         cube = solved()
         act(cube, WideMove(Move(Side.TOP, Multiplicity.CW)))
+        check_cube_integrity(cube)
         assert cube != solved()
 
     def test_act_wide_all_faces(self) -> None:
@@ -329,9 +329,9 @@ class TestAct:
 
     def test_act_slice_changes_cube(self) -> None:
         '''act() with SliceMove changes the cube state.'''
-        # check_cube_integrity omitted: reachable() depends on orientation (TODO)
         cube = solved()
         act(cube, SliceMove(Move(Side.LEFT, Multiplicity.CW)))
+        check_cube_integrity(cube)
         assert cube != solved()
 
     def test_act_slice_all_faces(self) -> None:
@@ -385,9 +385,9 @@ class TestActed:
 
     def test_acted_rotation(self) -> None:
         '''acted() with Rotation (y-CW) brings RED to FRONT.'''
-        # check_cube_integrity omitted: reachable() depends on orientation (TODO)
         cube = solved()
         new_cube = acted(cube, Rotation(Move(Side.TOP, Multiplicity.CW)))
+        check_cube_integrity(new_cube)
         colors: dict[Side, list[Color]] = all_colors(new_cube)
         assert all(c == Color.RED for c in colors[Side.FRONT])
 
@@ -399,10 +399,10 @@ class TestActed:
 
     def test_acted_wide(self) -> None:
         '''acted() with WideMove returns correct cube.'''
-        # check_cube_integrity omitted: reachable() depends on orientation (TODO)
         m: Move = Move(Side.FRONT, Multiplicity.CCW)
-        c1 = acted(solved(), WideMove(m))
         c2 = solved()
+        c1 = acted(c2, WideMove(m))
+        check_cube_integrity(c1)
         rotate(m, c2)
         move(c2, Move(opp_side[m.face], m.mult))
         assert c1 == c2
@@ -415,10 +415,10 @@ class TestActed:
 
     def test_acted_slice(self) -> None:
         '''acted() with SliceMove returns correct cube.'''
-        # check_cube_integrity omitted: reachable() depends on orientation (TODO)
         m: Move = Move(Side.FRONT, Multiplicity.CW)
-        c1 = acted(solved(), SliceMove(m))
         c2 = solved()
+        c1 = acted(c2, SliceMove(m))
+        check_cube_integrity(c1)
         rotate(m, c2)
         move(c2, Move(opp_side[m.face], m.mult))
         move(c2, Move(m.face, invert[m.mult]))
@@ -439,7 +439,8 @@ class TestActed:
         assert cube == solved()
 
     def test_acted_sequence(self) -> None:
-        '''acted() chained over a parsed face sequence preserves integrity.'''
+        '''acted() chained over a parsed face sequence preserves
+        integrity.'''
         cube = solved()
         for action in parse_actions("R U R' U'"):
             cube = acted(cube, action)
