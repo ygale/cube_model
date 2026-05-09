@@ -72,6 +72,17 @@ class Cube:
   next_edge:   dict[CornerSticker, EdgeSticker]
   next_corner: dict[EdgeSticker, CornerSticker]
 
+
+# Opposite face for each side.
+opp_side: dict[Side, Side] = {
+    Side.LEFT:   Side.RIGHT,
+    Side.RIGHT:  Side.LEFT,
+    Side.BOTTOM: Side.TOP,
+    Side.TOP:    Side.BOTTOM,
+    Side.BACK:   Side.FRONT,
+    Side.FRONT:  Side.BACK,
+}
+
 def shallow_copy(cube: Cube) -> Cube:
   '''Return a new Cube sharing all sticker objects but with new dicts.
 

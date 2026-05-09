@@ -20,6 +20,14 @@ class Multiplicity(Enum):
   CCW = auto()
   TWO = auto()
 
+
+# Inverse multiplicity: CW<->CCW, TWO is self-inverse.
+invert: dict[Multiplicity, Multiplicity] = {
+    Multiplicity.CW:  Multiplicity.CCW,
+    Multiplicity.CCW: Multiplicity.CW,
+    Multiplicity.TWO: Multiplicity.TWO,
+}
+
 @dataclass(frozen=True)
 class Move:
   '''A face move: a side and a multiplicity.'''
