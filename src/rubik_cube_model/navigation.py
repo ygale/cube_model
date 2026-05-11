@@ -134,7 +134,15 @@ def color_side(cube: Cube, color: Color) -> Side:
   return color_sides[(cube.front_color, cube.top_color, color)]
 
 def all_colors(cube: Cube) -> dict[Side, list[Color]]:
-  '''Return the eight sticker colors on each side.'''
+  '''Return the eight outer sticker colors on each side in
+  clockwise order, beginning with corner that bounds on the
+  following other two sides:
+  front: left, top
+  top: front, left
+  right: front, top
+  left: top, front
+  bottom; left, front
+  back: top, left'''
   result: dict[Side, list[Color]] = {}
   side: Side
   for side in Side:
