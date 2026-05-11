@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "rubik-model"
-version = "1.0.0"
+version = "1.0.1"
 description = "Orientation-independent Rubik cube model in strictly typed Python"
 authors = ["Yitzchak Gale <gale@sefer.org>"]
 readme = "README.md"

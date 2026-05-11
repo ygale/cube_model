@@ -1,7 +1,6 @@
-# rubik-cube-model
+# rubik-model
 
-A Poetry-based Python package that models a Rubik's Cube using linked sticker
-objects and per-face clockwise adjacency mappings.
+An orientation-independent Rubik's cube model in strictly typed Python.
 
 ## Highlights
 
@@ -15,14 +14,17 @@ objects and per-face clockwise adjacency mappings.
 ## Install
 
 ```bash
-poetry install
+pip install rubik-model
 ```
 
 ## Example
 
 ```python
-from rubik_cube_model import Color, Cube
+from rubik_model import Color, Move, Multiplicity, Side, solved, move
 
-cube = Cube.solved(front_color=Color.GREEN, top_color=Color.WHITE)
-assert cube.home.color is Color.GREEN
+cube = solved()
+assert cube.front_color is Color.GREEN
+
+move(Move(Side.FRONT, Multiplicity.CW), cube)
 ```
+
